@@ -103,3 +103,24 @@ func TestConvertStackFramesToStackTraceStrNoLabel(t *testing.T) {
 	actual := convertStackFramesToStackTraceStr(excp)
 	assert.Equal(t, actual, "exceptionType: exceptionMessage\n\tat label0(path0: 10)\n\tat (path1: 11)\n")
 }
+
+func TestConvertStackFramesToStackTraceStrNoErrorMessage(t *testing.T) {
+	excp := awsxray.Exception{
+		Type:    awsxray.String("exceptionType"),
+		Stack: []awsxray.StackFrame{
+			{
+				Path:  awsxray.String("path0"),
+				Line:  aws.Int(10),
+				Label: awsxray.String("label0"),
+			},
+			{
+				Path: awsxray.String("path1"),
+				Line: aws.Int(11),
+			},
+		},
+	}
+	actual := convertStackFramesToStackTraceStr(excp)
+	assert.Equal(t, actual, "exceptionType: exceptionMessage\n\tat label0(path0: 10)\n\tat (path1: 11)\n")
+}
+
+
